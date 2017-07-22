@@ -30,7 +30,10 @@
         <script src="/js/custom.js"></script>
         @yield('scripts')
 </head>
-<body>
+<body style="background: url({{asset('ccb70b36ae4487d1fa0f651c4a121237.jpg')}});
+             background-repeat: no-repeat;
+             background-size: cover;
+             background-attachment: fixed;">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -57,8 +60,8 @@
                         <li><a href="{{ url('/home')}}">Dasboard</a></li>
                         @endif
                         @role('admin')
-                         <li> <a href="{{ route('pegawais.index')}}">Pegawai</li>
-                         route('barangs.index')}}">Barang</li>
+                         <li> <a href="{{ route('konsumens.index')}}">Konsumen </a></li>
+                        <li> <a href="{{ route('furniturs.index')}}">Furnitur </a></li>
                          @endrole
                     </ul>
 

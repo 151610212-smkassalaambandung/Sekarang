@@ -11,16 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'PegawaisController@index');
+Route::get('/', 'HomeController@index');
 
 Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
   //Route Diisi disini....
-  Route::resource('pegawais', 'PegawaisController');
-  Route::resource('barangs', 'BarangsController');
+  Route::resource('konsumens', 'KonsumensController');
+  Route::resource('furniturs', 'FurnitursController');
 });

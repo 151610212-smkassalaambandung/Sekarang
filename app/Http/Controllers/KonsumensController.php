@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Pegawai;
+use App\Konsumen;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
 use Session;
 
-class PegawaisController extends Controller
+class konsumensController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,24 +18,24 @@ class PegawaisController extends Controller
     public function index(Request $request, Builder $htmlBuilder)
     {
         if($request->ajax()){
-            $pegawais=Pegawai::select(['id','nama_pegawai']);
-           return Datatables::of($pegawais)
-                ->addColumn('action' , function($pegawai){
+            $konsumens=Konsumen::select(['id','nama_konsumen']);
+           return Datatables::of($konsumens)
+                ->addColumn('action' , function($konsumen){
                     return view('datatable._action',[
-                    'model'=>$pegawai,
-                    'form_url'=>route('pegawais.destroy', $pegawai->id),
-                    'edit_url' => route('pegawais.edit', $pegawai->id),
-                    'confirm_message'=> 'Yakin mau menghapus' . $pegawai->nama_pegawai .'?'
+                    'model'=>$konsumen,
+                    'form_url'=>route('konsumens.destroy', $konsumen->id),
+                    'edit_url' => route('konsumens.edit', $konsumen->id),
+                    'confirm_message'=> 'Yakin mau menghapus' . $konsumen->nama_konsumen .'?'
 
                  ]);
                 })->make(true);
         }
 
         $html=$htmlBuilder
-            ->addColumn(['data'=>'nama_pegawai','name'=>'nama_pegawai','title'=>'Nama Pegawai'])
-            ->addColumn(['data'=>'action','nama_pegawai'=>'action', 'title'=>'', 'orderable'=>false, 'searchable'=>false]);
+            ->addColumn(['data'=>'nama_konsumen','name'=>'nama_konsumen','title'=>'Nama Konsumen'])
+            ->addColumn(['data'=>'action','nama_konsumen'=>'action', 'title'=>'', 'orderable'=>false, 'searchable'=>false]);
 
-                return view('pegawais.index')->with(compact('html'));
+                return view('konsumens.index')->with(compact('html'));
         }
     /**
      * Show the form for creating a new resource.
@@ -44,7 +44,7 @@ class PegawaisController extends Controller
      */
     public function create()
     {
-        return view('pegawais.create');
+        return view('konsumens.create');
     }
 
     /**
@@ -55,13 +55,13 @@ class PegawaisController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['nama_pegawai'=>'required|unique:pegawais']);
-        $pegawai= Pegawai::create($request->only('nama_pegawai'));
+        $this->validate($request, ['nama_konsumen'=>'required|unique:konsumens']);
+        $konsumen= Konsumen::create($request->only('nama_konsumen'));
         Session::flash("flash_notification",[
             "level"=>"success",
-            "message"=>"Berhasil menyimpan $pegawai->nama_pegawai"
+            "message"=>"Berhasil menyimpan $konsumen->nama_konsumen"
             ]);
-        return redirect()->route('pegawais.index');
+        return redirect()->route('konsumens.index');
     
     }
 
@@ -84,8 +84,8 @@ class PegawaisController extends Controller
      */
     public function edit($id)
     {
-        $pegawai=Pegawai::find($id);
-        return view('pegawais.edit')->with(compact('pegawai'));
+        $konsumen=Konsumen::find($id);
+        return view('konsumens.edit')->with(compact('konsumen'));
     }
 
     /**
@@ -97,14 +97,14 @@ class PegawaisController extends Controller
      */
     public function update(Request $request, $id)
     {
-            $this->validate($request, ['nama_pegawai'=>'required|unique:pegawais']);
-            $pegawai=Pegawai::find($id);
-            $pegawai->update($request->only('nama_pegawai'));
+            $this->validate($request, ['nama_konsumen'=>'required|unique:konsumens']);
+            $konsumen=Konsumen::find($id);
+            $konsumen->update($request->only('nama_konsumen'));
             Session::flash("flash_notification", [
             "level"=>"success",
-            "message"=>"Berhasil menyimpan $pegawai->nama_pegawai"
+            "message"=>"Berhasil menyimpan $konsumen->nama_konsumen"
             ]);
-            return redirect()->route('pegawais.index');
+            return redirect()->route('konsumens.index');
     }
 
     /**
@@ -115,11 +115,11 @@ class PegawaisController extends Controller
      */
     public function destroy($id)
     {
-        if(!Pegawai::destroy($id)) return redirect()->back();
+        if(!Konsumen::destroy($id)) return redirect()->back();
         Session::flash("flash_notification", [
         "level"=>"success",
-        "message"=>"pegawai berhasil dihapus"
+        "message"=>"konsumen berhasil dihapus"
         ]);
-        return redirect()->route('pegawais.index');
+        return redirect()->route('konsumens.index');
     }
 }
